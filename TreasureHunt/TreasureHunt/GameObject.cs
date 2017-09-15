@@ -15,7 +15,6 @@ namespace TreasureHunt
         public int X { get; set; }
         public int Y { get; set; }
 
-
         public GameObject(string title, int x, int y)
         {
             this.Title = title;

@@ -28,9 +28,24 @@ namespace TreasureHunt
             switch (ch)
             {
                 case 'x':
-                    return new Wall("Vägg",x,y);
+                    return new Wall("vägg",x,y);
+                case ' ':
+                    return new EmptySpace("rum", x, y);
+                default:
+                    throw new Exception($"Invalid character: {ch} in board.");
 
             }
+        }
+
+        public void SetPlayerCordinates(Player player)
+        {
+            int index = this.board.IndexOf('p');
+            if (index == -1)
+                throw new Exception("Unable to find player in board.");
+
+            player.X = index % this.width;
+            player.Y = index / this.width;
+            board = board.ReplaceAt(index, ' ');
         }
 
 

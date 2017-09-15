@@ -8,9 +8,36 @@ namespace TreasureHunt
 {
     class EmptySpace : GameObject
     {
+        public EmptySpace(string title, int x, int y) : base(title, x, y)
+        {
+
+        }
         public override string Execute(Player player, GameBoard gameBoard)
         {
-           //if (this.IsToTheRight)
+            string message = "";
+
+            if (this.IsToTheRight(player))
+            {
+                message = "Du tar ett steg till höger.";
+                player.TurnRight();
+            }
+            else if (this.IsToTheLeft(player))
+            {
+                message = "Du tar ett steg till vänster.";
+                player.TurnLeft();
+            }
+            else if (this.IsBehind(player))
+            {
+                message = "Du vänder dig om och tar ett steg tillbaka.";
+                player.TurnAround();
+            }
+            else
+                message = "Du tar ett steg framåt";
+
+            player.X = this.X;
+            player.Y = this.Y;
+
+            return message;
         }
 
         public override string GetOption(Player player)
