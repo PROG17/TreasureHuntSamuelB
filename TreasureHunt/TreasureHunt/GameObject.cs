@@ -10,7 +10,7 @@ namespace TreasureHunt
     {
         public abstract string Execute(Player player, GameBoard gameBoard);
         public abstract string GetOption(Player player);
-
+        public abstract string GetView(Player player);
         public string Title { get; set; }
         public int X { get; set; }
         public int Y { get; set; }

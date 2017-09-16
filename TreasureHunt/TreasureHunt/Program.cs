@@ -10,14 +10,16 @@ namespace TreasureHunt
     {
         static void Main(string[] args)
         {
-            GameBoard gameBoard = new GameBoard("xxxx"+
-                                                "x px"+
-                                                "x  x"+
-                                                "xxxx", 4);
+            GameBoard gameBoard = new GameBoard("xxxxxx"+
+                                                "x p  x"+
+                                                "xx x x"+
+                                                "xxxxxx", 6);
 
             TreasureHunt treasureHunt = new TreasureHunt(gameBoard);
-            Player player = new Player("Samuel");
+            Player player = new Player("Samuel"); 
             treasureHunt.Run(player);
+
+            Console.ReadKey();
 
         }
     }

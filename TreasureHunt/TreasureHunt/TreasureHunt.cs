@@ -24,11 +24,29 @@ namespace TreasureHunt
             this.storyTeller = new StoryTeller(this.player, this.gameBoard);
             Console.Clear();
 
+            while (true)
+            {
+                List<GameObject> gameObjects = this.storyTeller.DescribeView();
 
-            List<GameObject> gameObjects = this.storyTeller.DescribeView();
+                GameObject selectedGameObject = this.storyTeller.GetChoice(gameObjects);
 
+                string confirmMessage = selectedGameObject.Execute(this.player, this.gameBoard);
 
+                storyTeller.Speak($"\r\n{confirmMessage}\r\n\r\n");
 
+                if (this.player.Won)
+                {
+                    storyTeller.Speak($"Grattis {this.player.Name}, du har vunnit!!");
+                    return;
+                }
+
+                if (this.player.Lost)
+                {
+                    storyTeller.Speak($"F**ck {this.player.Name}, du har förlorat stort...");                
+                    return;
+                }
+
+            }
 
         }
     }

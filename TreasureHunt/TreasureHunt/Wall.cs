@@ -33,6 +33,20 @@ namespace TreasureHunt
                 throw new Exception("Can't get relative position to this game object");
         }
 
+        public override string GetView(Player player)
+        {
+            if (this.IsToTheRight(player))
+                return "Till höger om dig finns en vägg.";
+            else if (this.IsToTheLeft(player))
+                return "Till vänster om dig finns en vägg.";
+            else if (this.IsInFront(player))
+                return "Du står framför en vägg.";
+            else if (this.IsBehind(player))
+                return "Bakom dig finns en vägg.";
+            else
+                throw new Exception("Can't get relative position to this game object");
+        }
+
 
     }
 }
