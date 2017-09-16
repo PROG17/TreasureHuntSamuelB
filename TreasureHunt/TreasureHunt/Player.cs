@@ -14,6 +14,7 @@ namespace TreasureHunt
         public int X { get; set; }
         public int Y { get; set; }
         public int Score { get; set; }
+        public int Coins { get; set; }
         public List<GameObject> gameObjects { get; set; }
         public bool Won { get; set; }
         public bool Lost { get; set; }
@@ -22,7 +23,9 @@ namespace TreasureHunt
         public Player(string name)
         {
             this.Name = name;
+
             this.gameObjects = new List<GameObject>();
+
         }
 
         public void TurnRight()

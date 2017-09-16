@@ -16,16 +16,19 @@ namespace TreasureHunt
         {
             this.gameBoard = gameBoard;
         }
-
+        
         public void Run(Player player)
         {
             this.player = player;
+            this.player.Score = 10;
+            this.player.Coins = 5;
             this.gameBoard.SetPlayerCordinates(this.player);
             this.storyTeller = new StoryTeller(this.player, this.gameBoard);
             Console.Clear();
 
             while (true)
             {
+
                 List<GameObject> gameObjects = this.storyTeller.DescribeView();
 
                 GameObject selectedGameObject = this.storyTeller.GetChoice(gameObjects);

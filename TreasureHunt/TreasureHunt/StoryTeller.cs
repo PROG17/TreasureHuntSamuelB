@@ -15,11 +15,35 @@ namespace TreasureHunt
         {
             this.player = player;
             this.gameBoard = gameBoard;
+            Console.SetBufferSize(Console.WindowWidth, Console.WindowHeight);
+            Console.SetWindowSize(Console.WindowWidth, Console.WindowHeight);
+            
+        }
+
+        private void PrintPlayerInfo()
+        {
+            int curCursorX = Console.CursorLeft, curCursorY = Console.CursorTop;
+            ConsoleColor backColor=Console.BackgroundColor;
+            Console.BackgroundColor = ConsoleColor.Blue;
+
+            Console.SetCursorPosition(0, 0);
+            string info = $"Name: {this.player.Name}     Score: {this.player.Score}     Coins: {this.player.Coins}";          
+            string emptySpaces = new string(' ', Console.WindowWidth - info.Length);
+            Console.Write($"{info}{emptySpaces}");
+
+            Console.BackgroundColor = backColor;
+
+            Console.SetCursorPosition(curCursorX, curCursorY);
+            
         }
 
         public void Speak(string message)
         {
+            if (Console.CursorTop == 0)
+                Console.CursorTop = 1;
+
             Console.Write(message);
+            PrintPlayerInfo();
         }
 
         public string GetInput()
