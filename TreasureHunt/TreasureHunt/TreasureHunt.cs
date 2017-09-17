@@ -20,7 +20,7 @@ namespace TreasureHunt
         public void Run(Player player)
         {
             this.player = player;
-            this.player.Score = 10;
+            this.player.Score = 0;
             this.player.Coins = 5;
             this.gameBoard.SetPlayerCordinates(this.player);
             this.storyTeller = new StoryTeller(this.player, this.gameBoard);

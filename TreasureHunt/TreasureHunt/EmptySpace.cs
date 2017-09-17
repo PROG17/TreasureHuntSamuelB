@@ -28,7 +28,7 @@ namespace TreasureHunt
             }
             else if (this.IsBehind(player))
             {
-                message = "Du vänder dig om och tar ett steg tillbaka.";
+                message = "Du vänder dig om och tar ett steg framåt.";
                 player.TurnAround();
             }
             else
@@ -61,7 +61,7 @@ namespace TreasureHunt
             else if (this.IsToTheLeft(player))
                 return "Till vänster om dig är det tomt.";
             else if (this.IsInFront(player))
-                return "Du står i ett rum.";
+                return "Framför dig är det tomt.";
             else if (this.IsBehind(player))
                 return "Bakom dig är det tomt.";
             else
