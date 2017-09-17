@@ -15,8 +15,13 @@ namespace TreasureHunt
 
         public override string Execute(Player player, GameBoard gameBoard)
         {
-            player.Score = player.Score > 4 ? player.Score - 5 : 0;
-            return "Du får rejält ont i händerna och förlorar 5 poäng!";
+            if (player.Score > 4)
+            {
+                player.Score -= 5;
+                return "Du får rejält ont i händerna och förlorar 5 poäng!";
+            }
+            else
+                return "Du får rejält ont i händerna!";
         }
 
         public override string GetOption(Player player)

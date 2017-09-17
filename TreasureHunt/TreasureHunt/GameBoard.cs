@@ -18,6 +18,34 @@ namespace TreasureHunt
             this.height = board.Length / width;
         }
 
+        public string Board
+        {
+            get
+            {
+                return this.board;
+            }
+
+            set
+            {
+                this.board = value;
+            }
+
+        }
+
+        public int Width
+        {
+            get
+            {
+                return this.width;
+            }
+
+            set
+            {
+                this.width = value;
+            }
+
+        }
+
         public GameObject GetObject(int x, int y)
         {
             int index = y * this.width + x;
@@ -31,6 +59,10 @@ namespace TreasureHunt
                     return new Wall("vägg",x,y);
                 case ' ':
                     return new EmptySpace("rum", x, y);
+                case 'c':
+                    return new Coin("mynt", x, y);
+                case 's':
+                    return new Treasure("skattkista", x, y);
                 default:
                     throw new Exception($"Invalid character: {ch} in board.");
 

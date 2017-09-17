@@ -12,7 +12,7 @@ namespace TreasureHunt
         {
             GameBoard gameBoard = new GameBoard("xxxxxx"+
                                                 "x p  x"+
-                                                "xx x x"+
+                                                "xs xcx"+
                                                 "xxxxxx", 6);
 
             TreasureHunt treasureHunt = new TreasureHunt(gameBoard);
