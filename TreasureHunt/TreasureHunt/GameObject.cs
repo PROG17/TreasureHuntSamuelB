@@ -8,9 +8,8 @@ namespace TreasureHunt
 {
     abstract class GameObject : IGameObjectFactory
     {
-        public abstract string Execute(Player player, GameBoard gameBoard);
+        
         public abstract GameObject TryCreateFromChar(char ch, int x, int y);
-        public abstract string GetOption(Player player);
         public abstract string GetView(Player player);
 
         public string Title { get; set; }
@@ -27,11 +26,6 @@ namespace TreasureHunt
             this.Description = description;
             this.X = x;
             this.Y = y;
-        }
-
-        public GameObject() //default constructor 
-        {
-
         }
 
         public bool IsInFront(Player player)

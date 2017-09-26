@@ -13,62 +13,13 @@ namespace TreasureHunt
         {
 
         }
-
-        public override string Execute(Player player, GameBoard gameBoard)
-        {
-            player.Score += 100;
-            player.Coins += 1000000;
-            player.Won = true;
-            string message = "";
-
-            if (this.IsToTheRight(player))
-            {
-                message = "Du tar ett steg till höger och tar skatten!";
-                player.TurnRight();
-            }
-            else if (this.IsToTheLeft(player))
-            {
-                message = "Du tar ett steg till vänster och tar skatten!";
-                player.TurnLeft();
-            }
-            else if (this.IsBehind(player))
-            {
-                message = "Du vänder dig om, tar ett steg tillbaka, och tar skatten!";
-                player.TurnAround();
-            }
-            else
-                message = "Du tar ett steg framåt och tar skatten!";
-
-            player.X = this.X;
-            player.Y = this.Y;
-
-            int index = this.Y * gameBoard.Width + this.X;
-            gameBoard.Board = gameBoard.Board.ReplaceAt(index, ' ');
-
-            return message;
-        }
-
-        public override string GetOption(Player player)
-        {
-            if (this.IsToTheRight(player))
-                return "Ta skatten till höger";
-            else if (this.IsToTheLeft(player))
-                return "Ta skatten till vänster";
-            else if (this.IsInFront(player))
-                return "Ta skatten framför dig";
-            else if (this.IsBehind(player))
-                return "Ta skatten bakom dig";
-            else
-                throw new Exception("Can't get relative position to this game object");
-        }
-
+        
         public override List<Option> GetOptions(Player player, GameBoard gameBoard)
         {
             List<Option> options = new List<Option>();
 
             if (this.IsToTheRight(player) || this.IsToTheLeft(player) || this.IsInFront(player) || this.IsBehind(player))
                 return base.GetOptions(player, gameBoard);
-
 
             if (player.gameObjects.ContainsKey("skattkistaNyckel"))
             {

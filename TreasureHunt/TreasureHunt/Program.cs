@@ -18,12 +18,14 @@ namespace TreasureHunt
                 new Coin(null, null, null, 0, 0),
                 new EmptySpace(null, null, null, 0, 0),
                 new Treasure(null, null, null, 0, 0),
-                new Wall(null, null, null, 0, 0)
+                new Wall(null, null, null, 0, 0),
+                new TreasureKey(null, null, null, 0, 0)
             };
 
             GameBoard gameBoard = new GameBoard("xxxxxx" +
-                                                "x p  x" +
+                                                "x p kx" +
                                                 "xt xcx" +
+                                                "xc c x" +
                                                 "xxxxxx", 6, gameObjectFactories);
 
             TreasureHunt treasureHunt = new TreasureHunt(gameBoard);

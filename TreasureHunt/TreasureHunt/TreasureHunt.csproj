@@ -55,6 +55,7 @@
     <Compile Include="StringExtensions.cs" />
     <Compile Include="Treasure.cs" />
     <Compile Include="TreasureHunt.cs" />
+    <Compile Include="TreasureKey.cs" />
     <Compile Include="Wall.cs" />
   </ItemGroup>
   <ItemGroup>
