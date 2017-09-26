@@ -48,6 +48,20 @@ namespace TreasureHunt
 
         }
 
+        public int Height
+        {
+            get
+            {
+                return this.height;
+            }
+
+            set
+            {
+                this.height = value;
+            }
+
+        }
+
         public GameObject GetObject(int x, int y)
         {
             int index = y * this.width + x;

@@ -29,11 +29,11 @@ namespace TreasureHunt
             while (true)
             {
 
-                List<GameObject> gameObjects = this.storyTeller.DescribeView();
+                List<Option> options = this.storyTeller.DescribeView();
 
-                GameObject selectedGameObject = this.storyTeller.GetChoice(gameObjects);
+                Option selectedOption = this.storyTeller.GetChoice(options);
 
-                string confirmMessage = selectedGameObject.Execute(this.player, this.gameBoard);
+                string confirmMessage = selectedOption.Execute();
 
                 storyTeller.Speak($"\r\n{confirmMessage}\r\n\r\n");
 

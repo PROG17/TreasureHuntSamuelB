@@ -62,6 +62,32 @@ namespace TreasureHunt
                 throw new Exception("Can't get relative position to this game object");
         }
 
+        public override List<Option> GetOptions(Player player, GameBoard gameBoard)
+        {
+            List<Option> options = new List<Option>();
+
+            if (this.IsToTheRight(player) || this.IsToTheLeft(player) || this.IsInFront(player) || this.IsBehind(player))
+                return base.GetOptions(player, gameBoard);
+
+
+            if (player.gameObjects.ContainsKey("skattkistaNyckel"))
+            {
+                options.Add(new Option("Lås upp skattkistan med den gamla nyckeln", () =>
+                {
+                    player.Score += 100;
+                    player.Won = true;
+                    return "Du låser upp kistan och hittar skatten!";
+                }));
+            }
+            else
+                options.Add(new Option("Försök öppna skattkistan", () =>
+                {                   
+                    return "Skattkistan är låst och går inte att öppna.";
+                }));
+
+            return options;
+        }
+
         public override string GetView(Player player)
         {
             if (this.IsToTheRight(player))
@@ -73,7 +99,7 @@ namespace TreasureHunt
             else if (this.IsBehind(player))
                 return "Bakom dig står en skattkista på golvet.";
             else
-                throw new Exception("Can't get relative position to this game object");
+                return "På golvet står en skattkista.";
         }
 
         public override GameObject TryCreateFromChar(char ch, int x, int y)

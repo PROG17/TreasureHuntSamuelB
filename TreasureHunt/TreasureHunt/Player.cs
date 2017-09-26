@@ -15,7 +15,7 @@ namespace TreasureHunt
         public int Y { get; set; }
         public int Score { get; set; }
         public int Coins { get; set; }
-        public List<GameObject> gameObjects { get; set; }
+        public Dictionary<string, GameObject> gameObjects { get; set; }
         public bool Won { get; set; }
         public bool Lost { get; set; }
         public string Name { get; set; }
@@ -24,7 +24,7 @@ namespace TreasureHunt
         {
             this.Name = name;
 
-            this.gameObjects = new List<GameObject>();
+            this.gameObjects = new Dictionary<string, GameObject>();
 
         }
 

@@ -47,6 +47,7 @@
     <Compile Include="GameBoard.cs" />
     <Compile Include="GameObject.cs" />
     <Compile Include="IGameObjectFactory.cs" />
+    <Compile Include="Option.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

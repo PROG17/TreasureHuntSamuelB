@@ -62,6 +62,26 @@ namespace TreasureHunt
                 throw new Exception("Can't get relative position to this game object");
         }
 
+        public override List<Option> GetOptions(Player player, GameBoard gameBoard)
+        {
+            List<Option> options = new List<Option>();
+
+            if (this.IsToTheRight(player) || this.IsToTheLeft(player) || this.IsInFront(player) || this.IsBehind(player))
+                return base.GetOptions(player, gameBoard);
+            else
+                options.Add(new Option("Ta myntet under dig", () =>
+                {
+                    player.Score += 10;
+                    player.Coins += 1;
+                    player.gameObjects.Add(this.Key, this);
+                    int index = this.Y * gameBoard.Width + this.X;
+                    gameBoard.Board = gameBoard.Board.ReplaceAt(index, ' ');
+                    return "Du tar myntet och stoppar det i fickan";
+                }));
+
+            return options;        
+        }
+
         public override string GetView(Player player)
         {
             if (this.IsToTheRight(player))
@@ -73,7 +93,7 @@ namespace TreasureHunt
             else if (this.IsBehind(player))
                 return "Bakom dig ligger ett mynt på golvet.";
             else
-                throw new Exception("Can't get relative position to this game object");
+                return "Under dig ligger ett mynt på golvet.";
         }
 
         public override GameObject TryCreateFromChar(char ch, int x, int y)

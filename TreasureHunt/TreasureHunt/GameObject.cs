@@ -20,7 +20,7 @@ namespace TreasureHunt
         public string Description { get; set; }
         public string Key { get; set; }
 
-        public GameObject(string title, string key,string description, int x, int y)
+        public GameObject(string title, string key, string description, int x, int y)
         {
             this.Title = title;
             this.Key = key;
@@ -117,6 +117,47 @@ namespace TreasureHunt
                     return true;
                 else return false;
             else throw new Exception("Player doesn´t have a valid direction.");
+        }
+
+        public virtual List<Option> GetOptions(Player player, GameBoard gameBoard)
+        {
+            List<Option> options = new List<Option>();
+
+            if (this.IsToTheRight(player))
+                options.Add(new Option("Gå till höger", () =>
+                {
+                    player.TurnRight();
+                    player.X = this.X;
+                    player.Y = this.Y;
+                    return "Du tar ett steg till höger.";
+                }));
+            else if (this.IsToTheLeft(player))
+                options.Add(new Option("Gå till vänster", () =>
+                {
+                    player.TurnLeft();
+                    player.X = this.X;
+                    player.Y = this.Y;
+                    return "Du tar ett steg till vänster.";
+                }));
+
+            else if (this.IsInFront(player))
+                options.Add(new Option("Gå framåt", () =>
+                {
+                    player.X = this.X;
+                    player.Y = this.Y;
+                    return "Du tar ett steg framåt.";
+                }));
+            else if (this.IsBehind(player))
+                options.Add(new Option("Gå bakåt", () =>
+                {
+                    player.TurnAround();
+                    player.X = this.X;
+                    player.Y = this.Y;
+                    return "Du tar ett steg bakåt.";
+                }));
+            
+
+            return options;
         }
 
     }

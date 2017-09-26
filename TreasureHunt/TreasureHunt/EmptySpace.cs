@@ -54,6 +54,11 @@ namespace TreasureHunt
                 throw new Exception("Can't get relative position to this game object");
         }
 
+        public override List<Option> GetOptions(Player player,GameBoard gameBoard)
+        {
+            return base.GetOptions(player, gameBoard);
+        }
+
         public override string GetView(Player player)
         {
             if (this.IsToTheRight(player))
@@ -65,7 +70,7 @@ namespace TreasureHunt
             else if (this.IsBehind(player))
                 return "Bakom dig är det tomt.";
             else
-                throw new Exception("Can't get relative position to this game object");
+                return "";
         }
 
         public override GameObject TryCreateFromChar(char ch, int x, int y)
