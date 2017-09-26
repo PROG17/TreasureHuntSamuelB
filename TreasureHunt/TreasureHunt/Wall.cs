@@ -8,7 +8,7 @@ namespace TreasureHunt
 {
     class Wall : GameObject
     {
-        public Wall(string title, int x, int y) : base(title, x, y)
+        public Wall(string title, string key, string description, int x, int y) : base(title, key, description, x, y)
         {
 
         }
@@ -52,6 +52,14 @@ namespace TreasureHunt
                 throw new Exception("Can't get relative position to this game object");
         }
 
+        public override GameObject TryCreateFromChar(char ch, int x, int y)
+        {
+            if (ch == 'x')
+                return new Wall("vägg","vägg","en gammal grå betongvägg som sett sina bästa dagar för länge sedan", x, y);
+            else
+                return null;
+        }
 
+        
     }
 }

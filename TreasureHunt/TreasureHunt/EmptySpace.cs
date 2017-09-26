@@ -8,7 +8,7 @@ namespace TreasureHunt
 {
     class EmptySpace : GameObject
     {
-        public EmptySpace(string title, int x, int y) : base(title, x, y)
+        public EmptySpace(string title, string key, string description, int x, int y) : base(title, key, description, x, y)
         {
 
         }
@@ -66,6 +66,14 @@ namespace TreasureHunt
                 return "Bakom dig är det tomt.";
             else
                 throw new Exception("Can't get relative position to this game object");
+        }
+
+        public override GameObject TryCreateFromChar(char ch, int x, int y)
+        {
+            if (ch == ' ')
+                return new EmptySpace("tomrum", "tomrum", "ett tomrum som bara innehåller luften du andas och en hel del damm med för den delen", x, y);
+            else
+                return null;
         }
     }
 }

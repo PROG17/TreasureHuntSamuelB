@@ -9,7 +9,7 @@ namespace TreasureHunt
     class Treasure : GameObject
     {
 
-        public Treasure(string title, int x, int y) : base(title, x, y)
+        public Treasure(string title, string key, string description, int x, int y) : base(title, key, description, x, y)
         {
 
         }
@@ -74,6 +74,14 @@ namespace TreasureHunt
                 return "Bakom dig står en skattkista på golvet.";
             else
                 throw new Exception("Can't get relative position to this game object");
+        }
+
+        public override GameObject TryCreateFromChar(char ch, int x, int y)
+        {
+            if (ch == 't')
+                return new Treasure("skattkista", "skattkista", "en vacker skattkista med ett förgyllt lock vars smaragder glittrar i dunklet, kistan har ett stort rostigt hänglås och går tyvärr inte att öppna utan rätt nyckel", x, y);
+            else
+                return null;
         }
     }
 }

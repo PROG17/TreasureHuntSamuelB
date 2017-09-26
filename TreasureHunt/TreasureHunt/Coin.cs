@@ -9,7 +9,7 @@ namespace TreasureHunt
     class Coin : GameObject
     {
 
-        public Coin(string title, int x, int y) : base(title, x, y)
+        public Coin(string title, string key, string description, int x, int y) : base(title, key, description, x, y)
         {
 
         }
@@ -74,6 +74,14 @@ namespace TreasureHunt
                 return "Bakom dig ligger ett mynt på golvet.";
             else
                 throw new Exception("Can't get relative position to this game object");
+        }
+
+        public override GameObject TryCreateFromChar(char ch, int x, int y)
+        {
+            if (ch == 'c')
+                return new Coin("mynt", "mynt", "ett rostigt gammalt mynt med ett ansikte på en kung vars namn är svårt att minnas", x, y);
+            else
+                return null;
         }
     }
 }

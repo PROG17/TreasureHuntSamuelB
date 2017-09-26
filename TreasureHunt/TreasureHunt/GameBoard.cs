@@ -10,12 +10,14 @@ namespace TreasureHunt
     {
         string board;
         int width, height;
+        IGameObjectFactory[] gameObjectFactories;
 
-        public GameBoard(string board, int width)
+        public GameBoard(string board, int width, IGameObjectFactory[] gameObjectFactories)
         {
             this.board = board;
             this.width = width;
             this.height = board.Length / width;
+            this.gameObjectFactories = gameObjectFactories;
         }
 
         public string Board
@@ -53,20 +55,16 @@ namespace TreasureHunt
                 throw new ArgumentException("The provided x and y cordinates is out range.");
 
             char ch = board[index];
-            switch (ch)
-            {
-                case 'x':
-                    return new Wall("vägg",x,y);
-                case ' ':
-                    return new EmptySpace("rum", x, y);
-                case 'c':
-                    return new Coin("mynt", x, y);
-                case 's':
-                    return new Treasure("skattkista", x, y);
-                default:
-                    throw new Exception($"Invalid character: {ch} in board.");
 
+            GameObject gObject = null;
+            foreach (IGameObjectFactory gameObjectFactory in this.gameObjectFactories)
+            {
+                gObject = gameObjectFactory.TryCreateFromChar(ch, x, y);
+                if (gObject != null)
+                    return gObject;
             }
+
+            throw new Exception($"Invalid character: {ch} in board. No factory method is provided for character: {ch}");
         }
 
         public void SetPlayerCordinates(Player player)
@@ -78,6 +76,43 @@ namespace TreasureHunt
             player.X = index % this.width;
             player.Y = index / this.width;
             board = board.ReplaceAt(index, ' ');
+        }
+
+        public string GetMap(Player player)
+        {
+            
+            char playerSymbol = default(char);
+
+            switch (player.direction)
+            {
+                case Player.Direction.North:
+                    playerSymbol = '\u2191';
+                    break;
+                case Player.Direction.East:
+                    playerSymbol = '\u2192';
+                    break;
+                case Player.Direction.South:
+                    playerSymbol = '\u2193';
+                    break;
+                case Player.Direction.West:
+                    playerSymbol = '\u2190';
+                    break;
+            }
+
+            string result = this.Board.ReplaceAt(player.Y * this.Width + player.X, playerSymbol);
+
+            StringBuilder sb = new StringBuilder();
+
+            for (int y = 0; y < this.height; y++)
+            {
+                for (int x = 0; x < this.width; x++)
+                {
+                    sb.Append(result[y * this.width + x]);
+                }
+                sb.AppendLine();
+            }
+
+            return sb.ToString();
         }
 
 

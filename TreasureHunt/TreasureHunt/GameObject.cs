@@ -6,21 +6,32 @@ using System.Threading.Tasks;
 
 namespace TreasureHunt
 {
-    abstract class GameObject
+    abstract class GameObject : IGameObjectFactory
     {
         public abstract string Execute(Player player, GameBoard gameBoard);
+        public abstract GameObject TryCreateFromChar(char ch, int x, int y);
         public abstract string GetOption(Player player);
         public abstract string GetView(Player player);
+
         public string Title { get; set; }
-        
+
         public int X { get; set; }
         public int Y { get; set; }
+        public string Description { get; set; }
+        public string Key { get; set; }
 
-        public GameObject(string title, int x, int y)
+        public GameObject(string title, string key,string description, int x, int y)
         {
             this.Title = title;
+            this.Key = key;
+            this.Description = description;
             this.X = x;
             this.Y = y;
+        }
+
+        public GameObject() //default constructor 
+        {
+
         }
 
         public bool IsInFront(Player player)

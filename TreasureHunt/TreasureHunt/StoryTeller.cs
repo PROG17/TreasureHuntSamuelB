@@ -32,6 +32,8 @@ namespace TreasureHunt
             Console.Write($"{info}{emptySpaces}");
 
             Console.BackgroundColor = backColor;
+            Console.WriteLine($"\r\n{this.gameBoard.GetMap(this.player)}");
+            
 
             Console.SetCursorPosition(curCursorX, curCursorY);
             
@@ -39,8 +41,8 @@ namespace TreasureHunt
 
         public void Speak(string message)
         {
-            if (Console.CursorTop == 0)
-                Console.CursorTop = 1;
+            if (Console.CursorTop < 8)
+                Console.CursorTop = 8;
 
             Console.Write(message);
             PrintPlayerInfo();
