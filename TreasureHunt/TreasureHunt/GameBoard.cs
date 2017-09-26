@@ -11,9 +11,15 @@ namespace TreasureHunt
         string board;
         int width, height;
         IGameObjectFactory[] gameObjectFactories;
+        public string Title { get; set; }
+        public int Key { get; set; }
+        public string Description { get; set; }
 
-        public GameBoard(string board, int width, IGameObjectFactory[] gameObjectFactories)
+        public GameBoard(string title, string description, int key, string board, int width, IGameObjectFactory[] gameObjectFactories)
         {
+            this.Title = title;
+            this.Description = description;
+            this.Key = key;
             this.board = board;
             this.width = width;
             this.height = board.Length / width;
@@ -81,20 +87,23 @@ namespace TreasureHunt
             throw new Exception($"Invalid character: {ch} in board. No factory method is provided for character: {ch}");
         }
 
-        public void SetPlayerCordinates(Player player)
+        public bool SetPlayerCordinates(Player player)
         {
             int index = this.board.IndexOf('p');
             if (index == -1)
-                throw new Exception("Unable to find player in board.");
+                return false;
 
             player.X = index % this.width;
             player.Y = index / this.width;
+            player.GameBoardKey = this.Key;
             board = board.ReplaceAt(index, ' ');
+
+            return true;
         }
 
         public string GetMap(Player player)
         {
-            
+
             char playerSymbol = default(char);
 
             switch (player.direction)

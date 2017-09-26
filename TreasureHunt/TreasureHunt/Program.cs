@@ -22,13 +22,24 @@ namespace TreasureHunt
                 new TreasureKey(null, null, null, 0, 0)
             };
 
-            GameBoard gameBoard = new GameBoard("xxxxxx" +
-                                                "x p kx" +
-                                                "xt xcx" +
+            GameBoard smallCellarRoom = new GameBoard("Litet källarrum", "ett litet källarrum med gråa betongvägger så långt ögat kan nå", 0,
+                                                "xxxxxx" +
+                                                "x    x" +
+                                                "x  xcx" +
                                                 "xc c x" +
                                                 "xxxxxx", 6, gameObjectFactories);
 
-            TreasureHunt treasureHunt = new TreasureHunt(gameBoard);
+            GameBoard bigCellarRoom = new GameBoard("Stort källarrum", "ett stort källarrum med en hel del gammal bråte", 1,
+                                                "xxxxxxxxxxxx" +
+                                                "x   p   c  x" +
+                                                "x xxxx   t x" +
+                                                "x  c xxx   x" +
+                                                "x  x k  x  x" +
+                                                "x  c       x" +
+                                                "xxxxxxxxxxxx", 12, gameObjectFactories);
+
+
+            TreasureHunt treasureHunt = new TreasureHunt(smallCellarRoom, bigCellarRoom);
             Player player = new Player("Samuel");
             treasureHunt.Run(player);
 

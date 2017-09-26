@@ -19,6 +19,7 @@ namespace TreasureHunt
         public bool Won { get; set; }
         public bool Lost { get; set; }
         public string Name { get; set; }
+        public int GameBoardKey { get; set; }
 
         public Player(string name)
         {

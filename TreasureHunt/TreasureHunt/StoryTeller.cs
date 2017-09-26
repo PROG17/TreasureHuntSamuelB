@@ -8,19 +8,16 @@ namespace TreasureHunt
 {
     class StoryTeller
     {
-        Player player;
-        GameBoard gameBoard;
 
-        public StoryTeller(Player player, GameBoard gameBoard)
+        public StoryTeller()
         {
-            this.player = player;
-            this.gameBoard = gameBoard;
+
             Console.SetBufferSize(Console.WindowWidth, Console.WindowHeight);
             Console.SetWindowSize(Console.WindowWidth, Console.WindowHeight);
 
         }
 
-        private void PrintPlayerInfo()
+        private void PrintPlayerInfo(Player player, GameBoard gameBoard)
         {
 
             int curCursorX = Console.CursorLeft, curCursorY = Console.CursorTop;
@@ -28,29 +25,34 @@ namespace TreasureHunt
 
             //clear screen
             Console.SetCursorPosition(0, 0);
-            Console.Write(new string(' ', Console.WindowWidth * (this.gameBoard.Height + 2)));
+            Console.Write(new string(' ', Console.WindowWidth * (gameBoard.Height + 2)));
 
             Console.BackgroundColor = ConsoleColor.Blue;
             Console.SetCursorPosition(0, 0);
-            string info = $"Name: {this.player.Name}     Score: {this.player.Score}     Coins: {this.player.Coins}";
+            string info = $"Name: {player.Name}     Score: {player.Score}     Coins: {player.Coins}";
             string emptySpaces = new string(' ', Console.WindowWidth - info.Length);
             Console.Write($"{info}{emptySpaces}");
 
             Console.BackgroundColor = backColor;
-            Console.WriteLine($"{this.gameBoard.GetMap(this.player)}");
+            Console.WriteLine($"{gameBoard.GetMap(player)}");
 
 
             Console.SetCursorPosition(curCursorX, curCursorY);
 
         }
 
-        public void Speak(string message)
+        public void Speak(Player player, GameBoard gameBoard, string message)
         {
-            if (Console.CursorTop < this.gameBoard.Height + 2)
-                Console.CursorTop = this.gameBoard.Height + 2;
+            if (Console.CursorTop < gameBoard.Height + 2)
+                Console.CursorTop = gameBoard.Height + 2;
 
             Console.Write(message);
-            PrintPlayerInfo();
+            PrintPlayerInfo(player, gameBoard);
+        }
+
+        public void DescribeGameBoard(Player player, GameBoard gameBoard)
+        {
+            this.Speak(player, gameBoard, $"Du befinner dig i {gameBoard.Description}.\r\n\r\n");
         }
 
         public string GetInput()
@@ -58,15 +60,15 @@ namespace TreasureHunt
             return Console.ReadLine();
         }
 
-        public List<Option> DescribeView()
+        public List<Option> DescribeView(Player player, GameBoard gameBoard)
         {
             List<GameObject> gameObjects = new List<GameObject>();
 
-            gameObjects.Add(this.gameBoard.GetObject(this.player.X, this.player.Y));
-            gameObjects.Add(this.gameBoard.GetObject(this.player.X, this.player.Y - 1));
-            gameObjects.Add(this.gameBoard.GetObject(this.player.X + 1, this.player.Y));
-            gameObjects.Add(this.gameBoard.GetObject(this.player.X, this.player.Y + 1));
-            gameObjects.Add(this.gameBoard.GetObject(this.player.X - 1, this.player.Y));
+            gameObjects.Add(gameBoard.GetObject(player.X, player.Y));
+            gameObjects.Add(gameBoard.GetObject(player.X, player.Y - 1));
+            gameObjects.Add(gameBoard.GetObject(player.X + 1, player.Y));
+            gameObjects.Add(gameBoard.GetObject(player.X, player.Y + 1));
+            gameObjects.Add(gameBoard.GetObject(player.X - 1, player.Y));
 
             GameObject[] sortedGameObjects = new GameObject[5];
 
@@ -88,8 +90,8 @@ namespace TreasureHunt
             List<Option> options = new List<Option>();
             foreach (GameObject gameObject in sortedGameObjects)
             {
-                this.Speak($"{gameObject.GetView(player)} ");
-                List<Option> currentOptions = gameObject.GetOptions(this.player, this.gameBoard);
+                this.Speak(player, gameBoard, $"{gameObject.GetView(player)} ");
+                List<Option> currentOptions = gameObject.GetOptions(player, gameBoard);
                 options.AddRange(currentOptions);
             }
 
@@ -109,9 +111,9 @@ namespace TreasureHunt
             return sb.ToString();
         }
 
-        public Option GetChoice(List<Option> options)
+        public Option GetChoice(Player player, GameBoard gameBoard, List<Option> options)
         {
-            this.Speak($"\r\n\r\nVad vill du göra? {this.GetOptionKeys(options)}\r\n");
+            this.Speak(player, gameBoard, $"\r\n\r\nVad vill du göra? {this.GetOptionKeys(options)}\r\n");
 
             Option selectedOption = null;
 
@@ -128,7 +130,7 @@ namespace TreasureHunt
                     }
                 }
                 if (selectedOption == null)
-                    this.Speak($"\r\n{userInput} är inget giltigt val.\r\nVälj mellan: {this.GetOptionKeys(options)}\r\n");
+                    this.Speak(player, gameBoard, $"\r\n{userInput} är inget giltigt val.\r\nVälj mellan: {this.GetOptionKeys(options)}\r\n");
             }
             while (selectedOption == null);
 
