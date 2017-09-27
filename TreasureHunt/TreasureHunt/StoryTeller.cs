@@ -55,11 +55,6 @@ namespace TreasureHunt
             this.Speak(player, gameBoard, $"Du befinner dig i {gameBoard.Description}.\r\n\r\n");
         }
 
-        public string GetInput()
-        {
-            return Console.ReadLine();
-        }
-
         public List<Option> DescribeView(Player player, GameBoard gameBoard)
         {
             List<GameObject> gameObjects = new List<GameObject>();
@@ -117,20 +112,41 @@ namespace TreasureHunt
 
             Option selectedOption = null;
 
+            string userInput = "";
+
             do
             {
-                string userInput = this.GetInput();
+                userInput = StringExtensions.GetInput(userInput, out ConsoleKeyInfo cki);
 
-                foreach (Option option in options)
+                if (cki.Key == ConsoleKey.Enter)
                 {
-                    if (userInput.ToUpper() == option.Key.ToUpper())
+                    foreach (Option option in options)
                     {
-                        selectedOption = option;
-                        break;
+                        if (userInput.ToUpper() == option.Key.ToUpper())
+                        {
+                            selectedOption = option;
+                            break;
+                        }
+                    }
+                    if (selectedOption == null)
+                        this.Speak(player, gameBoard, $"\r\n{userInput} är inget giltigt val.\r\nVälj mellan: {this.GetOptionKeys(options)}\r\n");
+
+                    userInput = "";
+                }
+                else
+                {
+                    foreach (Option option in options)
+                    {
+                        if (option.CKey == ConsoleKey.X) //treat Ckey as no key at all - wich is default
+                            continue;
+
+                        if (cki.Key == option.CKey)
+                        {
+                            selectedOption = option;
+                            break;
+                        }
                     }
                 }
-                if (selectedOption == null)
-                    this.Speak(player, gameBoard, $"\r\n{userInput} är inget giltigt val.\r\nVälj mellan: {this.GetOptionKeys(options)}\r\n");
             }
             while (selectedOption == null);
 

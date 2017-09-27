@@ -8,12 +8,13 @@ namespace TreasureHunt
 {
     class Coin : GameObject
     {
+        static int count = 0;
 
         public Coin(string title, string key, string description, int x, int y) : base(title, key, description, x, y)
         {
-
+            count++;
         }
-        
+
         public override List<Option> GetOptions(Player player, GameBoard gameBoard)
         {
             List<Option> options = new List<Option>();
@@ -31,7 +32,7 @@ namespace TreasureHunt
                     return "Du tar myntet och stoppar det i fickan";
                 }));
 
-            return options;        
+            return options;
         }
 
         public override string GetView(Player player)
@@ -51,7 +52,9 @@ namespace TreasureHunt
         public override GameObject TryCreateFromChar(char ch, int x, int y)
         {
             if (ch == 'c')
-                return new Coin("mynt", "mynt", "ett rostigt gammalt mynt med ett ansikte på en kung vars namn är svårt att minnas", x, y);
+            {
+                return new Coin("mynt", $"mynt{count}", "ett rostigt gammalt mynt med ett ansikte på en kung vars namn är svårt att minnas", x, y);
+            }
             else
                 return null;
         }

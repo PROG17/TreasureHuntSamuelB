@@ -8,7 +8,7 @@ namespace TreasureHunt
 {
     abstract class GameObject : IGameObjectFactory
     {
-        
+
         public abstract GameObject TryCreateFromChar(char ch, int x, int y);
         public abstract string GetView(Player player);
 
@@ -116,6 +116,17 @@ namespace TreasureHunt
         public virtual List<Option> GetOptions(Player player, GameBoard gameBoard)
         {
             List<Option> options = new List<Option>();
+            ConsoleKey cKey = ConsoleKey.X; //treat Ckey X as no key meaning default value
+
+
+            if (this.X > player.X)
+                cKey = ConsoleKey.RightArrow;
+            else if (this.X < player.X)
+                cKey = ConsoleKey.LeftArrow;
+            else if (this.Y > player.Y)
+                cKey = ConsoleKey.DownArrow;
+            else if (this.Y < player.Y)
+                cKey = ConsoleKey.UpArrow;
 
             if (this.IsToTheRight(player))
                 options.Add(new Option("Gå till höger", () =>
@@ -124,7 +135,7 @@ namespace TreasureHunt
                     player.X = this.X;
                     player.Y = this.Y;
                     return "Du tar ett steg till höger.";
-                }));
+                }, cKey));
             else if (this.IsToTheLeft(player))
                 options.Add(new Option("Gå till vänster", () =>
                 {
@@ -132,7 +143,7 @@ namespace TreasureHunt
                     player.X = this.X;
                     player.Y = this.Y;
                     return "Du tar ett steg till vänster.";
-                }));
+                }, cKey));
 
             else if (this.IsInFront(player))
                 options.Add(new Option("Gå framåt", () =>
@@ -140,7 +151,7 @@ namespace TreasureHunt
                     player.X = this.X;
                     player.Y = this.Y;
                     return "Du tar ett steg framåt.";
-                }));
+                }, cKey));
             else if (this.IsBehind(player))
                 options.Add(new Option("Gå bakåt", () =>
                 {
@@ -148,8 +159,8 @@ namespace TreasureHunt
                     player.X = this.X;
                     player.Y = this.Y;
                     return "Du tar ett steg bakåt.";
-                }));
-            
+                }, cKey));
+
 
             return options;
         }

@@ -35,8 +35,8 @@ namespace TreasureHunt
                                                 "x       c  x" +
                                                 "x xxxx   t x" +
                                                 "x  c xxx   x" +
-                                                "x  x k  x p2" +
-                                                "x  c       x" +
+                                                "x  x k  x  2" +
+                                                "x  c p     x" +
                                                 "xxxxxxxxxxxx", 12, gameObjectFactories);
 
             GameBoard RectangularCellarRoom = new GameBoard("Avlångt källarrum", "ett avlångt källarrum där luften luktar unken, här verkar ingen ha varit på mycket länge", 2,
