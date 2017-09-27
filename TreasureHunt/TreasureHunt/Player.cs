@@ -20,6 +20,7 @@ namespace TreasureHunt
         public bool Lost { get; set; }
         public string Name { get; set; }
         public int GameBoardKey { get; set; }
+        public Dictionary<int, GameBoard> GameBoards;
 
         public Player(string name)
         {

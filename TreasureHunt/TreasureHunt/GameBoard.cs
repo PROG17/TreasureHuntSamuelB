@@ -72,7 +72,7 @@ namespace TreasureHunt
         {
             int index = y * this.width + x;
             if (index < 0 || index > board.Length - 1)
-                throw new ArgumentException("The provided x and y cordinates is out range.");
+                return null;
 
             char ch = board[index];
 
@@ -99,6 +99,51 @@ namespace TreasureHunt
             board = board.ReplaceAt(index, ' ');
 
             return true;
+        }
+
+        public void TurnPlayerAwayFrom(Player player, GameObject gameObject)
+        {
+            player.direction = Player.Direction.North;
+            if (gameObject.IsToTheLeft(player))
+                player.TurnRight();
+            else if (gameObject.IsToTheRight(player))
+                player.TurnLeft();
+            else if (gameObject.IsInFront(player))
+                player.TurnAround();
+        }
+
+        public void SetPlayerAround(Player player, char ch)
+        {
+            int index = this.board.IndexOf(ch);
+            if (index == -1)
+                throw new Exception($"Unable to find center symbol: {ch} in board. Can´t position player.");
+
+            int y = index / this.width;
+            int x = index % this.width;
+            GameObject gameObjectInCenter = this.GetObject(x, y);
+
+            List<GameObject> gameObjects = new List<GameObject>();
+
+            gameObjects.Add(GetObject(x, y - 1));
+            gameObjects.Add(GetObject(x, y + 1));
+            gameObjects.Add(GetObject(x - 1, y));
+            gameObjects.Add(GetObject(x + 1, y));
+
+            foreach (GameObject gameObject in gameObjects)
+            {
+                if (gameObject == null)
+                    continue;
+
+                if (gameObject.GetType() == typeof(EmptySpace))
+                {
+                    player.X = gameObject.X;
+                    player.Y = gameObject.Y;
+                    this.TurnPlayerAwayFrom(player, gameObjectInCenter);
+                    return;
+                }
+            }
+
+            throw new Exception($"No empty space available around symbol: {ch}. Can´t position player.");
         }
 
         public string GetMap(Player player)

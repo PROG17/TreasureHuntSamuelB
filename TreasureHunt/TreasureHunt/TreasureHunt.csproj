@@ -43,6 +43,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Coin.cs" />
+    <Compile Include="Door.cs" />
     <Compile Include="EmptySpace.cs" />
     <Compile Include="GameBoard.cs" />
     <Compile Include="GameObject.cs" />
