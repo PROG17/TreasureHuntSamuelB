@@ -82,6 +82,7 @@ namespace TreasureHunt
             }
 
             //Output the view and retrive all options for all gameobjects
+            this.Speak(player, gameBoard, $"{new string('-', Console.WindowWidth)}");
             List<Option> options = new List<Option>();
             foreach (GameObject gameObject in sortedGameObjects)
             {
