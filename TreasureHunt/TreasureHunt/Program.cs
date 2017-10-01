@@ -20,7 +20,8 @@ namespace TreasureHunt
                 new Treasure(null, null, null, 0, 0),
                 new Wall(null, null, null, 0, 0),
                 new TreasureKey(null, null, null, 0, 0),
-                new Door(null, null, null, 0, 0)
+                new Door(null, null, null, 0, 0),
+                new Spring(null, null, null, 0, 0)
             };
 
             GameBoard smallCellarRoom = new GameBoard("Litet källarrum", "ett litet källarrum med gråa betongvägger så långt ögat kan nå", 0,
@@ -36,7 +37,7 @@ namespace TreasureHunt
                                                 "x xxxx   t x" +
                                                 "x  c xxx   x" +
                                                 "x  x k  x  2" +
-                                                "x  c p     x" +
+                                                "x  c p  s  x" +
                                                 "xxxxxxxxxxxx", 12, gameObjectFactories);
 
             GameBoard RectangularCellarRoom = new GameBoard("Avlångt källarrum", "ett avlångt källarrum där luften luktar unken, här verkar ingen ha varit på mycket länge", 2,

@@ -107,6 +107,29 @@ namespace TreasureHunt
             return sb.ToString();
         }
 
+        private Option MatchOptionStrings(string userInput, List<Option> options)
+        {
+            List<string> optionStrings = options.Select(option => option.Key.Replace(" ", "").ToUpper()).ToList();
+
+            if (optionStrings.ContainsSingle(userInput.ToUpper(), out int index))
+                return options[index];
+            else
+                return null;
+
+        }
+
+        private Option MatchOptionCkeys(ConsoleKeyInfo cki, List<Option> options)
+        {
+            List<Option> optionsWithCkey = options.Where(option => option.CKey != ConsoleKey.X).ToList();
+
+            foreach (Option option in optionsWithCkey)
+            {
+                if (cki.Key == option.CKey)
+                    return option;
+            }
+            return null;
+        }
+
         public Option GetChoice(Player player, GameBoard gameBoard, List<Option> options)
         {
             this.Speak(player, gameBoard, $"\r\n\r\nVad vill du göra? {this.GetOptionKeys(options)}\r\n");
@@ -121,32 +144,20 @@ namespace TreasureHunt
 
                 if (cki.Key == ConsoleKey.Enter)
                 {
-                    foreach (Option option in options)
+                    selectedOption = MatchOptionStrings(userInput, options);
+                    if (selectedOption != null)
+                        break;
+                    else
                     {
-                        if (userInput.ToUpper() == option.Key.ToUpper())
-                        {
-                            selectedOption = option;
-                            break;
-                        }
-                    }
-                    if (selectedOption == null)
                         this.Speak(player, gameBoard, $"\r\n{userInput} är inget giltigt val.\r\nVälj mellan: {this.GetOptionKeys(options)}\r\n");
-
-                    userInput = "";
+                        userInput = "";
+                    }
                 }
                 else
                 {
-                    foreach (Option option in options)
-                    {
-                        if (option.CKey == ConsoleKey.X) //treat Ckey as no key at all - wich is default
-                            continue;
-
-                        if (cki.Key == option.CKey)
-                        {
-                            selectedOption = option;
-                            break;
-                        }
-                    }
+                    selectedOption = MatchOptionCkeys(cki, options);
+                    if (selectedOption != null)
+                        break;                    
                 }
             }
             while (selectedOption == null);
