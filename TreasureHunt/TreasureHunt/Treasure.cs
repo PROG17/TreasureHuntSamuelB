@@ -13,7 +13,7 @@ namespace TreasureHunt
         {
 
         }
-        
+
         public override List<Option> GetOptions(Player player, GameBoard gameBoard)
         {
             List<Option> options = new List<Option>();
@@ -23,16 +23,22 @@ namespace TreasureHunt
 
             if (player.gameObjects.ContainsKey("skattkistaNyckel"))
             {
-                options.Add(new Option("Lås upp skattkistan med den gamla nyckeln", () =>
-                {
-                    player.Score += 100;
-                    player.Won = true;
-                    return "Du låser upp kistan och hittar skatten!";
-                }));
+                if (((TreasureKey)player.gameObjects["skattkistaNyckel"]).Polished)
+                    options.Add(new Option("Lås upp skattkistan med den nyslipade nyckeln", () =>
+                    {
+                        player.Score += 100;
+                        player.Won = true;
+                        return "Du låser upp kistan och hittar skatten!";
+                    }));
+                else
+                    options.Add(new Option("Lås upp skattkistan med den gamla nyckeln", () =>
+                    {                       
+                        return "Det är rätt nyckel men den är så pass rostig att den tyvärr inte går att vrida runt helt.";
+                    }));
             }
             else
                 options.Add(new Option("Försök öppna skattkistan", () =>
-                {                   
+                {
                     return "Skattkistan är låst och går inte att öppna.";
                 }));
 

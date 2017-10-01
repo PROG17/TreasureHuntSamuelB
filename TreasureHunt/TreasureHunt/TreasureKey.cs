@@ -8,28 +8,54 @@ namespace TreasureHunt
 {
     class TreasureKey : GameObject
     {
+        bool polished;
+
 
         public TreasureKey(string title, string key, string description, int x, int y) : base(title, key, description, x, y)
         {
+            polished = false;
+        }
 
+        public bool Polished
+        {
+            get
+            {
+                return this.polished;
+            }
         }
 
         public override List<Option> GetOptions(Player player, GameBoard gameBoard)
         {
             List<Option> options = new List<Option>();
 
-            if (this.IsToTheRight(player) || this.IsToTheLeft(player) || this.IsInFront(player) || this.IsBehind(player))
-                return base.GetOptions(player, gameBoard);
-            else
-                options.Add(new Option("Ta nyckeln under dig", () =>
+            if (!player.gameObjects.ContainsKey(this.Key))
+            {
+                if (this.IsToTheRight(player) || this.IsToTheLeft(player) || this.IsInFront(player) || this.IsBehind(player))
+                    return base.GetOptions(player, gameBoard);
+                else
                 {
-                    player.Score += 10;
-                    player.gameObjects.Add(this.Key, this);
-                    int index = this.Y * gameBoard.Width + this.X;
-                    gameBoard.Board = gameBoard.Board.ReplaceAt(index, ' ');
-                    return "Du tar nyckeln och hänger den runt halsen.";
-                }));
-
+                    options.Add(new Option("Ta nyckeln under dig", () =>
+                    {
+                        player.Score += 10;
+                        player.gameObjects.Add(this.Key, this);
+                        int index = this.Y * gameBoard.Width + this.X;
+                        gameBoard.Board = gameBoard.Board.ReplaceAt(index, ' ');
+                        return "Du tar nyckeln och hänger den runt halsen.";
+                    }));
+                }
+            }
+            else
+            {
+                if (player.gameObjects.ContainsKey("sandpapper"))
+                    options.Add(new Option("Slipa nyckeln med sandpappret", () =>
+                    {
+                        this.polished = true;
+                        player.Score += 20;
+                        player.gameObjects.Remove("sandpapper");
+                        return "Du slipar nyckeln med sandpappret";
+                    }));
+            }
+           
             return options;
         }
 

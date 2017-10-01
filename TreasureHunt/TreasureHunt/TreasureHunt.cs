@@ -26,7 +26,7 @@ namespace TreasureHunt
         {
             this.player = player;
             this.player.Score = 0;
-            this.player.Coins = 5;
+            this.player.Coins = 0;
             this.player.GameBoards = this.gameBoards;
 
             foreach (KeyValuePair<int, GameBoard> gameBoard in gameBoards)
@@ -51,6 +51,13 @@ namespace TreasureHunt
             {
 
                 List<Option> options = this.storyTeller.DescribeView(this.player, this.currentGameBoard);
+                //get inventory options
+                List<Option> inventoryOptions = player.gameObjects
+                             .Where(kvp => kvp.Value.GetOptions(this.player, this.currentGameBoard).Count > 0)
+                             .Select(kvp => kvp.Value.GetOptions(this.player, this.currentGameBoard))
+                             .SelectMany(x=>x).ToList();
+                //add inventory options
+                options.AddRange(inventoryOptions);
 
                 Option selectedOption = this.storyTeller.GetChoice(this.player, this.currentGameBoard, options);
 
